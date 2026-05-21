@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="Una tarjeta de cumpleaños especial para una amiga inolvidable">
+    <meta name="author" content="Diego Joubert">
+    <title>🎂 Feliz Cumpleaños, Brenda 🎂</title>
+    <style>
+        /* ========== VARIABLES GLOBALES (PALETA MEJORADA) ========== */
+        :root {
+            --primary-bg: linear-gradient(135deg, #3b0a6b 0%, #9b4dff 100%);
+            --card-bg: rgba(255, 248, 255, 0.96);
+            --text-dark: #1f0036;
+            --accent: #c5117e;
+            --accent-light: #e06ef0;
+            --border-radius: 32px;
+            --shadow: 0 25px 40px rgba(30, 0, 60, 0.5);
+            --smooth-shadow: 0 0 12px rgba(199, 0, 143, 0.4);
+            --font-title: "Quicksand", "Segoe UI", system-ui, sans-serif;
+            --font-body: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+        }
+
+        /* ========== RESET Y GLOBALES ============ */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--primary-bg);
+            font-family: var(--font-body);
+            padding: 1.2rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =========== TARJETA PRINCIPAL (sobre corazones) ============ */
+        .birthday-card {
+            max-width: 660px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.25s ease;
+            margin: 1rem auto;
+            padding: 2rem 1.8rem;
+            text-align: center;
+            position: relative;
+            z-index: 20;         /* ✅ se asegura que la tarjeta esté por encima de los corazones */
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 215, 255, 0.7);
+        }
+
+        .birthday-card:hover {
+            transform: scale(1.01);
+        }
+
+        /* =========== HEADER =========== */
+        .card__header {
+            margin-bottom: 1.5rem;
+        }
+
+        .card__avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+            border: 3px solid var(--accent-light);
+            background: #fbeaff;
+            overflow: hidden;
+        }
+
+        .card__avatar-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card__title {
+            font-family: var(--font-title);
+            font-size: 2.4rem;
+            color: var(--text-dark);
+            margin-bottom: 0.3rem;
+            text-shadow: 0 2px 5px rgba(199, 0, 143, 0.2);
+            letter-spacing: -0.3px;
+        }
+
+        .card__title-name {
+            color: var(--accent);
+            display: inline-block;
+            background: linear-gradient(145deg, #e02b9b, #b10b6b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: none;
+        }
+
+        .card__subtitle {
+            color: #a13ad2;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 1rem;
+            margin: 0.4rem 0 0;
+            background: rgba(237, 150, 255, 0.25);
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+        }
+
+        /* ============ MENSAJE PRINCIPAL (mejor contraste) =========*/
+        .card__message {
+            border-radius: calc(var(--border-radius) - 6px);
+            background: rgba(252, 240, 255, 0.7);
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+            border-left: 6px solid var(--accent);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .card__text {
+            color: #2c004a;
+            line-height: 1.55;
+            margin-bottom: 1rem;
+            font-size: 1.02rem;
+        }
+
+        .card__text--highlight {
+            font-weight: bold;
+            color: #b11074;
+            text-align: center;
+            font-size: 1.2rem;
+            background: rgba(224, 110, 240, 0.2);
+            padding: 0.6rem;
+            border-radius: 60px;
+            margin-top: 0.8rem;
+        }
+
+        /* =========== FOOTER ========== */
+        .card__footer {
+            margin: 1.5rem 0 0.5rem;
+            padding: 0.9rem;
+            background: #ffe4fb;
+            border-radius: 40px;
+            border: 2px dashed var(--accent-light);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            font-size: 1rem;
+            color: var(--accent);
+        }
+
+        .card__footer-text {
+            font-weight: bold;
+            font-style: italic;
+            color: #9b2f7a;
+        }
+
+        #sign {
+            margin: 0.5rem 0 0;
+            display: inline-block;
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        /* ========== CORAZONES FLOTANTES (detrás de la tarjeta) ======= */
+        .heart {
+            position: fixed;
+            bottom: -10px;
+            pointer-events: none;
+            z-index: 5;          /* ✅ están por debajo de la tarjeta (z-index:20) */
+            font-size: 24px;
+            animation: floatUp 6s linear forwards;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 2px rgba(255, 120, 200, 0.5));
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.85;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(380deg);
+                opacity: 0;
+            }
+        }
+
+        /* ajustes extra para pantallas pequeñas */
+        @media (max-width: 550px) {
+            .birthday-card {
+                padding: 1.5rem;
+            }
+            .card__title {
+                font-size: 1.9rem;
+            }
+            .card__message {
+                padding: 1rem;
+            }
+            .card__text {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <article class="birthday-card">
+        <header class="card__header">
+            <div class="card__avatar">
+                <!-- Imagen ilustrativa; si no existe, se muestra emoji cariñoso alternativo -->
+                <img src="avatar.jpg" 
+                     alt="Chica morena de ojos rojos con lentes y orejas de gato blancas. Vestida con una sudadera gris."
+                     class="card__avatar-image"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/110x110?text=🌸';">
+            </div>
+
+            <h1 class="card__title">Feliz Cumpleaños, <span class="card__title-name">Brenda</span></h1>
+
+            <p class="card__subtitle" lang="ja">
+                ✨ Watashi no Kaosu no Hime e ✨
+            </p>
+        </header>
+
+        <section class="card__message">
+            <p class="card__text">
+                Hoy es un día muy especial pues hace dieciséis años nació una personita que definitivamente no está muy
+                bien de la cabeza y es, por decir lo menos, rara. Esa personita, tal vez sin proponérselo, se ha
+                convertido en una de las más importantes en mi vida, ocupando un lugar en mi corazón que a veces pienso
+                que fue creado solo para ella. Y aunque hoy no pueda estar a tu lado para darte abrazos y pasteles (y
+                nalgadas 😏 muchas nalgadas, te las mereces >&lt;) quiero que sepas que eres mi mejor amiga, una chica
+                increíble, única y que alegra cada uno de mis días con su locura.
+                <br><br>
+                Gracias, muchas gracias, por tu amistad 🫂✨
+            </p>
+
+            <p class="card__text card__text--highlight">
+                💜✨ Te quiero mucho, Brenda ✨💜
+            </p>
+        </section>
+
+        <footer class="card__footer">
+            <p class="card__footer-text">
+                Hecho con ❤️, 💻 y ☕ solo para tí
+                <span id="sign">-- Your favorite mole, D' --</span>
+            </p>
+        </footer>
+    </article>
+
+    <script>
+        // ---------- CORAZONES FLOTANTES (mejorados: siempre detrás de la tarjeta, sin interferir texto) ----------
+        (function() {
+            // Lista de emojis variados (todos con temática amorosa)
+            const heartsList = [
+                "❤️", "💖", "💗", "💓", "💕", "💞", "🩷", "💘", "❤️‍🔥", "🧡", 
+                "💝", "💟", "❣️", "🌸", "✨", "💜", "🩵", "💚"
+            ];
+            
+            // Función para crear un corazón flotante en el fondo
+            function createHeart() {
+                const heart = document.createElement("div");
+                heart.classList.add("heart");
+                
+                // Selección aleatoria de emoji
+                const randomHeart = heartsList[Math.floor(Math.random() * heartsList.length)];
+                heart.innerHTML = randomHeart;
+                
+                // Tamaño aleatorio entre 18px y 48px (más variedad)
+                const size = Math.random() * 30 + 18;
+                heart.style.fontSize = `${size}px`;
+                
+                // Posición horizontal aleatoria (ocupa todo el ancho)
+                heart.style.left = `${Math.random() * 100}%`;
+                
+                // Duración de la animación: entre 4.5 y 9 segundos
+                const duration = Math.random() * 4.5 + 4.5;
+                heart.style.animation = `floatUp ${duration}s linear forwards`;
+                
+                // Retraso aleatorio para evitar sincronía
+                heart.style.animationDelay = `${Math.random() * 2.5}s`;
+                
+                // Añadir al body (siempre en z-index 5, detrás de la tarjeta)
+                document.body.appendChild(heart);
+                
+                // Eliminar después de que termine la animación para no acumular elementos
+                setTimeout(() => {
+                    if (heart && heart.remove) heart.remove();
+                }, duration * 1000);
+            }
+            
+            // Generar corazones a intervalos regulares (cada 350ms -> suave, pero sin saturar)
+            let intervalId = setInterval(createHeart, 380);
+            
+            // Opcional: limpiar el intervalo si la página se descarga (buena práctica)
+            window.addEventListener("beforeunload", () => {
+                if (intervalId) clearInterval(intervalId);
+            });
+            
+            // Pequeña ráfaga inicial de 5 corazones para ambientar sin ser invasivo
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => createHeart(), i * 120);
+            }
+        })();
+    </script>
+</body>
+</html>
